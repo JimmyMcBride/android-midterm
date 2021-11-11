@@ -208,11 +208,72 @@ Don't forget to add permissions in your manifest to use the internet when hittin
 
 ### Retrofit
 
+> Retrofit is the class through which your API interfaces are turned into callable objects. By default, Retrofit will give you sane defaults for your platform but it allows for customization.
+>
+> By default, Retrofit can only deserialize HTTP bodies into OkHttp's ResponseBody type and it can only accept its RequestBody type for @Body. - [Source](https://square.github.io/retrofit/)
+
+Example:
+
+```java
+@Headers({
+  "Accept: application/vnd.github.v3.full+json",
+  "User-Agent: Retrofit-Sample-App"
+})
+@GET("users/{username}")
+Call<User> getUser(@Path("username") String username);
+```
+
+If you want to use other types, you can use other library's to handle the conversion of JSON data you get back. One we've used is class is Moshi, which is described in the section below.
+
 ### Moshi
 
-### Navigation Component
+> Moshi is a modern JSON library for Android, Java and Kotlin. It makes it easy to parse JSON into Java and Kotlin classes. - [Source](https://github.com/square/moshi)
+
+Example:
+
+```kotlin
+val json: String = ...
+
+val moshi: Moshi = Moshi.Builder().build()
+val jsonAdapter: JsonAdapter<BlackjackHand> = moshi.adapter<BlackjackHand>()
+
+val blackjackHand = jsonAdapter.fromJson(json)
+println(blackjackHand)
+```
+
+You can hook this up to retrofit (described above) to help handle the responses you get back from your API.
+
+Example of using moshi with retrofit:
+
+```kotlin
+object RetrofitInstance {
+  private val retrofit: Retrofit = Retrofit.Builder()
+    .baseUrl("https://projectapi.com/api")
+    .addConverterFactory(MoshiConverterFactory.create())
+    .build()
+
+  val projectService: ProjectService = retrofit.create(ProjectService::class.java)
+}
+```
+
+Now you can use `JsonClass` to generate adapters to handle the json from your responses.
+
+Example:
+
+```kotlin
+@JsonClass(generateAdapter = true)
+data class Image(
+  @Json(name = "image_name")
+  val imageName: String,
+
+  @Json(name = "url")
+  val url: String
+) : Serializable
+```
 
 ### Glide
+
+### Navigation Component
 
 ## Java
 
