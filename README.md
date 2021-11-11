@@ -76,6 +76,22 @@ public class Activity extends ApplicationContext {
 >
 > You can use multiple instances of the same fragment class within the same activity, in multiple activities, or even as a child of another fragment. With this in mind, you should only provide a fragment with the logic necessary to manage its own UI. You should avoid depending on or manipulating one fragment from another. - [Source](https://developer.android.com/guide/fragments#modularity)
 
+### Navigation Component
+
+> The navigation component is a collection of libraries, tools, and plugins for uniform and smooth navigation. Navigation Architecture Component simplifies implementing navigation regardless of the app complexity.
+>
+> Android Jetpack provides a set of tools, libraries, and architectural guidelines that help to build quality Android applications faster. The Navigation component is the latest library introduced by Android Jetpack. - [Source](https://www.dhiwise.com/navigation-component-with-kotlin-and-jetpack/)
+
+#### Benefits of the navigation component
+
+- Visualize and edit your application navigation flow
+- Automates fragment transaction
+- Handles back and forth navigation by default
+- Sets animation and transitions by default
+- Simplifies deep linking
+- Easily Implement navigation UI patterns
+- Enforce type safety when passing information while navigating through different fragments
+
 ### Intent
 
 > The startActivity(Intent) method is used to start a new activity, which will be placed at the top of the activity stack. It takes a single argument, an Intent, which describes the activity to be executed.
@@ -273,7 +289,19 @@ data class Image(
 
 ### Glide
 
-### Navigation Component
+> Glide is a fast and efficient image loading library for Android focused on smooth scrolling. Glide offers an easy to use API, a performant and extensible resource decoding pipeline and automatic resource pooling.
+>
+> Glide supports fetching, decoding, and displaying video stills, images, and animated GIFs. Glide includes a flexible api that allows developers to plug in to almost any network stack. By default Glide uses a custom HttpUrlConnection based stack, but also includes utility libraries plug in to Google’s Volley project or Square’s OkHttp library instead.
+>
+> Glide’s primary focus is on making scrolling any kind of a list of images as smooth and fast as possible, but Glide is also effective for almost any case where you need to fetch, resize, and display a remote image. - [Source](https://bumptech.github.io/glide/)
+
+Example:
+
+```kotlin
+Glide.with(fragment)
+  .load(url)
+  .into(imageView);
+```
 
 ## Java
 
