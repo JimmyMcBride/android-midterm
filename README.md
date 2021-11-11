@@ -193,6 +193,19 @@ In order for a recycler to work, you need to set up an adapter. For more informa
 
 ### Manifest
 
+> Every app project must have an AndroidManifest.xml file (with precisely that name) at the root of the project source set. The manifest file describes essential information about your app to the Android build tools, the Android operating system, and Google Play.
+>
+> Among many other things, the manifest file is required to declare the following:
+>
+> - The app's package name, which usually matches your code's namespace. The Android build tools use this to determine the location of code entities when building your project. When packaging the app, the build tools replace this value with the application ID from the Gradle build files, which is used as the unique app identifier on the system and on Google Play. [Read more about the package name and app ID.](https://developer.android.com/guide/topics/manifest/manifest-intro#package-name)
+> - The components of the app, which include all activities, services, broadcast receivers, and content providers. Each component must define basic properties such as the name of its Kotlin or Java class. It can also declare capabilities such as which device configurations it can handle, and intent filters that describe how the component can be started. [Read more about app components.](https://developer.android.com/guide/topics/manifest/manifest-intro#components)
+> - The permissions that the app needs in order to access protected parts of the system or other apps. It also declares any permissions that other apps must have if they want to access content from this app. [Read more about permissions.](https://developer.android.com/guide/topics/manifest/manifest-intro#perms)
+> - The hardware and software features the app requires, which affects which devices can install the app from Google Play. [Read more about device compatibility.](https://developer.android.com/guide/topics/manifest/manifest-intro#compatibility)
+>
+> If you're using Android Studio to build your app, the manifest file is created for you, and most of the essential manifest elements are added as you build your app (especially when using code templates). - [Source](https://developer.android.com/guide/topics/manifest/manifest-introv)
+
+Don't forget to add permissions in your manifest to use the internet when hitting API's and rendering images/gif's from URL's!!!!
+
 ### Retrofit
 
 ### Moshi
