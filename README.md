@@ -309,7 +309,140 @@ Glide.with(fragment)
 
 ### OOP
 
+- **Abstraction:** Hide the details inside a class or function so when you call the function you don't have to understand exactly what it is doing.
+- **Encapsulation:** Enclose parts of your code in a way that restricts access to other parts of code.
+- **Inheritance:** Allows an object or class to acquire the properties and methods of another object or class.
+- **Polymorphism:** Allows your code to exist in many different forms. So all classes that inherit from another class can all act interchangeably with parent class, but can also contain their own unique properties and methods.
+
 ### Design Patterns
+
+- **Factory Pattern:** When you create an object without exposing the creation logic to the client and refer to newly created object using a common interface.
+
+Example:
+
+```kotlin
+// This is our common interface we want to use to refer to our newly created shapes.
+interface Shape {
+  fun draw()
+}
+
+// Creating some shape objects to draw:
+
+class Rectangle : Shape {
+  override fun draw() {
+    println("Drawing a rectangle...")
+    println("[]")
+  }
+}
+
+class Circle : Shape {
+  override fun draw() {
+    println("Drawing a circle...")
+    println("()")
+  }
+}
+
+// I've created an enum here so that it's not possible to try and create an unknown shape.
+enum class ShapeType {
+  Rectangle,
+  Circle
+}
+
+// This is our factory. Here we instantiate a specific shape based on the shape enum passed.
+class ShapeFactory {
+  companion object {
+    fun getShape(shapeType: ShapeType): Shape {
+      return when (shapeType) {
+        ShapeType.Rectangle -> {
+          return Rectangle()
+        }
+        ShapeType.Circle -> {
+          return Circle()
+        }
+      }
+    }
+  }
+}
+
+fun main() {
+  // Our getShape function from our ShapeFactory is instantiating our instance of a particular shape for us.
+  val shape1 = ShapeFactory.getShape(ShapeType.Circle)
+  // Now let's draw out the shape our ShapeFactury instantiated for us.
+  shape1.draw()
+}
+```
+
+I used [this source](https://www.tutorialspoint.com/design_pattern/factory_pattern.htm) as a reference and refactored the example to kotlin to get a better understanding.
+
+- **Adapter Pattern:**
+
+> Adapter pattern works as a bridge between two incompatible interfaces. This type of design pattern comes under structural pattern as this pattern combines the capability of two independent interfaces.
+>
+> This pattern involves a single class which is responsible to join functionalities of independent or incompatible interfaces. A real life example could be a case of card reader which acts as an adapter between memory card and a laptop. You plugin the memory card into card reader and card reader into the laptop so that memory card can be read via laptop. - [Source](https://www.tutorialspoint.com/design_pattern/adapter_pattern.htm)
+
+- **State Pattern**
+
+In state we have data (aka the state) that effects how the behavior of a particular context.
+
+```kotlin
+// Creating our state interface
+interface MobileAlertState {
+  fun alert(ctx: AlertStateContext)
+}
+
+// Create the context for our state. Depending on our state, we're going to have our alert use the corresponding sound to alert the user of their notification.
+class AlertStateContext {
+  private var currentState: MobileAlertState? = null
+
+  // Setting default state
+  init {
+    currentState = Vibration()
+  }
+
+  // This is where we take in the new state and change it to something new.
+  fun setState(state: MobileAlertState) {
+    currentState = state
+  }
+
+  // This is where we're going to use our current state to notify the user.
+  fun alert() {
+    currentState!!.alert(this)
+  }
+}
+
+// Vibrates on alert
+class Vibration : MobileAlertState {
+  override fun alert(ctx: AlertStateContext) {
+    println("vibration...")
+  }
+}
+
+// Silent alerts
+class Silent : MobileAlertState {
+  override fun alert(ctx: AlertStateContext) {
+    println("silent...")
+  }
+}
+
+// Alerts with sound
+class Sound : MobileAlertState {
+  override fun alert(ctx: AlertStateContext) {
+    println("tu..tu..tu..tu")
+  }
+}
+
+fun main() {
+  // Example of how the context's behavior changes based on the changing state.
+  val stateContext = AlertStateContext()
+  stateContext.alert() // vibration...
+  stateContext.alert() // vibration...
+  stateContext.setState(Silent())
+  stateContext.alert() // silent...
+  stateContext.alert() // silent...
+  stateContext.setState(Sound())
+  stateContext.alert() // tu..tu..tu..tu...
+}
+```
 
 ### Static
 
