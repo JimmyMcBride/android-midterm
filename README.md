@@ -446,9 +446,88 @@ fun main() {
 
 ### Static
 
+A static method can be accessed without creating an object of the class first.
+
+Example:
+
+```kotlin
+// objects are like static classes in Kotlin
+object Math {
+  fun add(x: Int, y: Int): Int {
+    return x + y
+  }
+}
+// We can access the add function directly without instantiating a Math class.
+var answer = Math.add(5, 4) // 9
+```
+
+[Extra source](https://www.w3schools.com/java/ref_keyword_static.asp)
+
 ### Implements
 
+> An interface is an abstract "class" that is used to group related methods with "empty" bodies:
+>
+> To access the interface methods, the interface must be "implemented" (kinda like inherited) by another class with the implements keyword (instead of extends). The body of the interface method is provided by the "implement" class:
+
+```java
+// interface
+interface Animal {
+  public void animalSound(); // interface method (does not have a body)
+  public void sleep(); // interface method (does not have a body)
+}
+
+// Pig "implements" the Animal interface
+class Pig implements Animal {
+  public void animalSound() {
+    // The body of animalSound() is provided here
+    System.out.println("The pig says: wee wee");
+  }
+  public void sleep() {
+    // The body of sleep() is provided here
+    System.out.println("Zzz");
+  }
+}
+
+class MyMainClass {
+  public static void main(String[] args) {
+    Pig myPig = new Pig();  // Create a Pig object
+    myPig.animalSound();
+    myPig.sleep();
+  }
+}
+```
+
+[Source](https://www.w3schools.com/java/ref_keyword_implements.asp)
+
 ### Extends
+
+Extends allows a class to inherit properties and methods from another class.
+
+Example: - [Source](https://www.w3schools.com/java/ref_keyword_extends.asp)
+
+```java
+class Vehicle {
+  protected String brand = "Ford";         // Vehicle attribute
+  public void honk() {                     // Vehicle method
+    System.out.println("Tuut, tuut!");
+  }
+}
+
+class Car extends Vehicle {
+  private String modelName = "Mustang";    // Car attribute
+  public static void main(String[] args) {
+
+    // Create a myCar object
+    Car myCar = new Car();
+
+    // Call the honk() method (from the Vehicle class) on the myCar object
+    myCar.honk();
+
+    // Display the value of the brand attribute (from the Vehicle class) and the value of the modelName from the Car class
+    System.out.println(myCar.brand + " " + myCar.modelName);
+  }
+}
+```
 
 ## Kotlin
 
@@ -456,18 +535,78 @@ fun main() {
 
 ### Val vs Var vs Const Val
 
+- Val is read only (immutable)
+- Var is mutable, meaning you can read and write
+- Const val is an immutable variable that's known at compilation time
+
 ### Lateinit
+
+Lateinit is used when you want to declare a variable and it's type, but don't want to initialize it quite yet.
+
+```kotlin
+lateinit x: Int
+
+fun doSomeThing(y: Int) {
+  x = y
+  return x
+}
+```
 
 ### Lazy
 
+Lazy is used when you want to initialize a variable, but the value for that variable might not be ready right away. By adding lazy, it will wait until we use the variable to try and initialize it.
+
 ### Null Safety
+
+Kotlin does really well at handling null values, second to only Rust, in my personal opinion. We can add a `?` to a type to signify that it can be nullable. We can use the elvis operator `?:` to set a default value. Finally we can use `?.` to safely call null values that might be null.
+
+```kotlin
+var thing: String? = null
+
+thing = data.object?.property
+
+var otherThing = thing ?: "nothing yet..."
+```
 
 ### Data Class
 
+Data classes are classes that are meant to hold data. 🥴
+
+```kotlin
+data class User(val name: String, val age: Int)
+```
+
+[Source](https://kotlinlang.org/docs/data-classes.html)
+
 ### Object
+
+Objects are static classes. We use these when we don't want or need to instantiate a class to access it's properties and methods.
 
 ### Companion Object
 
+Companion Objects hold static properties and methods within a class. We use these when we want to have specific properties and methods on a class that don't require a class instantiation.
+
 ### Scope Functions
 
+> The Kotlin standard library contains several functions whose sole purpose is to execute a block of code within the context of an object. When you call such a function on an object with a lambda expression provided, it forms a temporary scope. In this scope, you can access the object without its name. Such functions are called scope functions. There are five of them: let, run, with, apply, and also.
+>
+> Basically, these functions do the same: execute a block of code on an object. What's different is how this object becomes available inside the block and what is the result of the whole expression.
+>
+> Here's a typical usage of a scope function:
+
+```kotlin
+Person("Alice", 20, "Amsterdam").let {
+  println(it)
+  it.moveTo("London")
+  it.incrementAge()
+  println(it)
+}
+```
+
+[Source](https://kotlinlang.org/docs/scope-functions.html)
+
 ### Extension Functions
+
+> Kotlin provides the ability to extend a class with new functionality without having to inherit from the class or use design patterns such as Decorator. This is done via special declarations called extensions.
+>
+> For example, you can write new functions for a class from a third-party library that you can't modify. Such functions can be called in the usual way, as if they were methods of the original class. This mechanism is called an extension function. There are also extension properties that let you define new properties for existing classes. - [Source](https://kotlinlang.org/docs/extensions.html)
